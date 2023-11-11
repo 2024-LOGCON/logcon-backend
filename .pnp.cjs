@@ -42,6 +42,8 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.15"],\
           ["@typescript-eslint/eslint-plugin", "virtual:a0c3e40ffc5dd2763f71f7973dd54fa2507cf9c8198c8e5e426888270ee6832a37d58d81281311e199e48438905e95b7282f3e7ec8c2f0c688a112209b28167b#npm:6.9.1"],\
           ["@typescript-eslint/parser", "virtual:a0c3e40ffc5dd2763f71f7973dd54fa2507cf9c8198c8e5e426888270ee6832a37d58d81281311e199e48438905e95b7282f3e7ec8c2f0c688a112209b28167b#npm:6.9.1"],\
+          ["class-transformer", "npm:0.5.1"],\
+          ["class-validator", "npm:0.14.0"],\
           ["cross-env", "npm:7.0.3"],\
           ["eslint", "npm:8.53.0"],\
           ["eslint-config-prettier", "virtual:a0c3e40ffc5dd2763f71f7973dd54fa2507cf9c8198c8e5e426888270ee6832a37d58d81281311e199e48438905e95b7282f3e7ec8c2f0c688a112209b28167b#npm:9.0.0"],\
@@ -1518,8 +1520,8 @@ const RAW_RUNTIME_STATE =
           ["@types/class-validator", null],\
           ["@types/reflect-metadata", null],\
           ["@types/rxjs", null],\
-          ["class-transformer", null],\
-          ["class-validator", null],\
+          ["class-transformer", "npm:0.5.1"],\
+          ["class-validator", "npm:0.14.0"],\
           ["iterare", "npm:1.2.1"],\
           ["reflect-metadata", "npm:0.1.13"],\
           ["rxjs", "npm:7.8.1"],\
@@ -1634,8 +1636,8 @@ const RAW_RUNTIME_STATE =
           ["@types/class-validator", null],\
           ["@types/nestjs__common", null],\
           ["@types/reflect-metadata", null],\
-          ["class-transformer", null],\
-          ["class-validator", null],\
+          ["class-transformer", "npm:0.5.1"],\
+          ["class-validator", "npm:0.14.0"],\
           ["reflect-metadata", "npm:0.1.13"]\
         ],\
         "packagePeers": [\
@@ -1731,8 +1733,8 @@ const RAW_RUNTIME_STATE =
           ["@types/nestjs__common", null],\
           ["@types/nestjs__core", null],\
           ["@types/reflect-metadata", null],\
-          ["class-transformer", null],\
-          ["class-validator", null],\
+          ["class-transformer", "npm:0.5.1"],\
+          ["class-validator", "npm:0.14.0"],\
           ["js-yaml", "npm:4.1.0"],\
           ["lodash", "npm:4.17.21"],\
           ["path-to-regexp", "npm:3.2.0"],\
@@ -2335,6 +2337,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@types/supertest", "npm:2.0.15"],\
           ["@types/superagent", "npm:4.1.20"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@types/validator", [\
+      ["npm:13.11.6", {\
+        "packageLocation": "../../../../../.yarn/berry/cache/@types-validator-npm-13.11.6-83ab3545a6-10c0.zip/node_modules/@types/validator/",\
+        "packageDependencies": [\
+          ["@types/validator", "npm:13.11.6"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -3633,6 +3644,27 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../../../../.yarn/berry/cache/cjs-module-lexer-npm-1.2.3-9d788a3c14-10c0.zip/node_modules/cjs-module-lexer/",\
         "packageDependencies": [\
           ["cjs-module-lexer", "npm:1.2.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["class-transformer", [\
+      ["npm:0.5.1", {\
+        "packageLocation": "../../../../../.yarn/berry/cache/class-transformer-npm-0.5.1-96b5161e6c-10c0.zip/node_modules/class-transformer/",\
+        "packageDependencies": [\
+          ["class-transformer", "npm:0.5.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["class-validator", [\
+      ["npm:0.14.0", {\
+        "packageLocation": "../../../../../.yarn/berry/cache/class-validator-npm-0.14.0-b600d5fe72-10c0.zip/node_modules/class-validator/",\
+        "packageDependencies": [\
+          ["class-validator", "npm:0.14.0"],\
+          ["@types/validator", "npm:13.11.6"],\
+          ["libphonenumber-js", "npm:1.10.49"],\
+          ["validator", "npm:13.11.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -6606,6 +6638,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["libphonenumber-js", [\
+      ["npm:1.10.49", {\
+        "packageLocation": "../../../../../.yarn/berry/cache/libphonenumber-js-npm-1.10.49-23b6289fec-10c0.zip/node_modules/libphonenumber-js/",\
+        "packageDependencies": [\
+          ["libphonenumber-js", "npm:1.10.49"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["lines-and-columns", [\
       ["npm:1.2.4", {\
         "packageLocation": "../../../../../.yarn/berry/cache/lines-and-columns-npm-1.2.4-d6c7cc5799-10c0.zip/node_modules/lines-and-columns/",\
@@ -6701,6 +6742,8 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.15"],\
           ["@typescript-eslint/eslint-plugin", "virtual:a0c3e40ffc5dd2763f71f7973dd54fa2507cf9c8198c8e5e426888270ee6832a37d58d81281311e199e48438905e95b7282f3e7ec8c2f0c688a112209b28167b#npm:6.9.1"],\
           ["@typescript-eslint/parser", "virtual:a0c3e40ffc5dd2763f71f7973dd54fa2507cf9c8198c8e5e426888270ee6832a37d58d81281311e199e48438905e95b7282f3e7ec8c2f0c688a112209b28167b#npm:6.9.1"],\
+          ["class-transformer", "npm:0.5.1"],\
+          ["class-validator", "npm:0.14.0"],\
           ["cross-env", "npm:7.0.3"],\
           ["eslint", "npm:8.53.0"],\
           ["eslint-config-prettier", "virtual:a0c3e40ffc5dd2763f71f7973dd54fa2507cf9c8198c8e5e426888270ee6832a37d58d81281311e199e48438905e95b7282f3e7ec8c2f0c688a112209b28167b#npm:9.0.0"],\
@@ -9355,6 +9398,15 @@ const RAW_RUNTIME_STATE =
           ["@jridgewell/trace-mapping", "npm:0.3.20"],\
           ["@types/istanbul-lib-coverage", "npm:2.0.5"],\
           ["convert-source-map", "npm:2.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["validator", [\
+      ["npm:13.11.0", {\
+        "packageLocation": "../../../../../.yarn/berry/cache/validator-npm-13.11.0-f0143e2784-10c0.zip/node_modules/validator/",\
+        "packageDependencies": [\
+          ["validator", "npm:13.11.0"]\
         ],\
         "linkType": "HARD"\
       }]\
