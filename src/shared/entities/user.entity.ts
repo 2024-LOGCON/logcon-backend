@@ -32,7 +32,7 @@ export class User {
   })
   solves: Solve[];
 
-  @Column()
+  @Column('bool', { default: false })
   isAdmin: boolean;
 
   @CreateDateColumn()
