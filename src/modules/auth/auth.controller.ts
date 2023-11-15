@@ -13,6 +13,7 @@ import { LoginDto } from './dto/login.dto';
 import { Request, Response } from 'express';
 import { RefreshGuard } from './guards/refresh.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { AccessGuard } from './guards/access.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -36,7 +37,7 @@ export class AuthController {
 
   @Post('/logout')
   @ApiBearerAuth()
-  @UseGuards(RefreshGuard)
+  @UseGuards(AccessGuard)
   async logout(@Res() res: Response) {
     res.clearCookie('REFRESH_TOKEN');
     res.send('ok');

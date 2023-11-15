@@ -7,6 +7,7 @@ import * as path from 'path';
 import { AuthModule } from '../auth/auth.module';
 import { DatabaseModule } from 'src/shared/providers/database.module';
 import { AdminModule } from '../admin/admin.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { AdminModule } from '../admin/admin.module';
     AuthModule,
     DatabaseModule,
     AdminModule,
+    UserModule,
   ],
   controllers: [RootController],
   providers: [RootService],

@@ -7,5 +7,6 @@ declare global {
 export interface ExtendUser {
   name: string;
   email: string;
+  id: string;
   school: string;
 }

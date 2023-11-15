@@ -19,7 +19,7 @@ export class AccessStrategy extends PassportStrategy(Strategy, 'access') {
     });
   }
 
-  async validate(user: Express.User & Partial<JwtPayload>) {
+  async validate(req: Request, user: Express.User & Partial<JwtPayload>) {
     delete user.iat;
     delete user.exp;
     return user;

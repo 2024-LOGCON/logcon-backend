@@ -55,8 +55,8 @@ export class AuthService {
     return await this.generateAccessToken(newUser);
   }
 
-  async login({ email, password }: LoginDto): Promise<string> {
-    const user = await this.userRepository.findOneBy({ email });
+  async login({ id, password }: LoginDto): Promise<string> {
+    const user = await this.userRepository.findOneBy({ id });
 
     if (!user) {
       throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
@@ -71,7 +71,7 @@ export class AuthService {
 
   async generateAccessToken(user: Express.User): Promise<string> {
     return await this.jwtService.signAsync(
-      { user },
+      { ...user },
       {
         secret: this.configService.get<string>('ACCESS_TOKEN_SECRET'),
         expiresIn: this.configService.get<string>('ACCESS_TOKEN_EXPIRES_IN'),
@@ -81,7 +81,7 @@ export class AuthService {
 
   async generateRefreshToken(user: Express.User): Promise<string> {
     return await this.jwtService.signAsync(
-      { user },
+      { ...user },
       {
         secret: this.configService.get<string>('REFRESH_TOKEN_SECRET'),
         expiresIn: this.configService.get<string>('REFRESH_TOKEN_EXPIRES_IN'),
