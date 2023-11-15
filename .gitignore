@@ -34,7 +34,8 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# Zero Install
+# Yarn berry
+.pnp.*
 .yarn/*
 !.yarn/cache
 !.yarn/patches
