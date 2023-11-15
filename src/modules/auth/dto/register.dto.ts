@@ -27,7 +27,7 @@ export class RegisterDto {
   password!: string;
 
   @ApiProperty({
-    description: 'Password of the student',
+    description: 'School of the student',
   })
   @IsString()
   school!: string;
