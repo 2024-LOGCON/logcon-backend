@@ -8,6 +8,7 @@ import { AuthModule } from '../auth/auth.module';
 import { DatabaseModule } from 'src/shared/providers/database.module';
 import { AdminModule } from '../admin/admin.module';
 import { UserModule } from '../user/user.module';
+import { NoticeModule } from '../notice/notice.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { UserModule } from '../user/user.module';
     DatabaseModule,
     AdminModule,
     UserModule,
+    NoticeModule,
   ],
   controllers: [RootController],
   providers: [RootService],
