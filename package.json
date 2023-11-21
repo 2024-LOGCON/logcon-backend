@@ -37,7 +37,7 @@
     "cookie-parser": "^1.4.6",
     "cross-env": "^7.0.3",
     "joi": "^17.11.0",
-    "mysql2": "^3.6.3",
+    "mysql2": "^3.6.4",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",
