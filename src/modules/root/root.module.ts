@@ -9,6 +9,8 @@ import { DatabaseModule } from 'src/shared/providers/database.module';
 import { AdminModule } from '../admin/admin.module';
 import { UserModule } from '../user/user.module';
 import { NoticeModule } from '../notice/notice.module';
+import { CategoryModule } from '../category/category.module';
+import { ChallengeModule } from '../challenge/challenge.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { NoticeModule } from '../notice/notice.module';
     AdminModule,
     UserModule,
     NoticeModule,
+    CategoryModule,
+    ChallengeModule,
   ],
   controllers: [RootController],
   providers: [RootService],
