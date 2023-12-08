@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsNotEmpty,
   IsOptional,
@@ -7,34 +8,32 @@ import {
 } from 'class-validator';
 
 export class CreateChallengeDto {
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   name: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   description: string;
 
+  @ApiProperty()
   @IsOptional()
   @IsString()
   connection?: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   flag: string;
 
-  @IsOptional()
-  @IsInt()
-  point?: number;
-
+  @ApiProperty()
   @IsOptional()
   @IsString()
   file?: string;
 
-  @IsOptional()
-  @IsBoolean()
-  visible?: boolean;
-
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   categoryId: string;

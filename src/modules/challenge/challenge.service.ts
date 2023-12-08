@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Challenge } from '../../shared/entities/challenge.entity';
@@ -12,44 +17,61 @@ export class ChallengeService {
     private challengeRepository: Repository<Challenge>,
   ) {}
 
-  async create(createChallengeDto: CreateChallengeDto): Promise<Challenge> {
-    const newChallenge = this.challengeRepository.create(createChallengeDto);
+  async create(body: CreateChallengeDto): Promise<Challenge> {
+    const newChallenge = this.challengeRepository.create({
+      ...body,
+      category: {
+        id: body.categoryId,
+      },
+    });
+
     await this.challengeRepository.save(newChallenge);
     return newChallenge;
   }
 
-  async findAll(): Promise<Challenge[]> {
-    return this.challengeRepository.find();
+  async findAll(user?: Express.User): Promise<Challenge[]> {
+    const isAdmin = user && user?.isAdmin;
+
+    return await this.challengeRepository.find({
+      where: { visible: isAdmin ? undefined : true },
+    });
   }
 
   async findOne(id: string): Promise<Challenge> {
-    const challenge = await this.challengeRepository.findOne({ where: { id } });
+    const challenge = await this.challengeRepository.findOneBy({ id });
     if (!challenge) {
-      throw new NotFoundException(`Challenge with ID "${id}" not found`);
+      throw new HttpException(
+        `Challenge with ID "${id}" not found`,
+        HttpStatus.NOT_FOUND,
+      );
     }
+
     return challenge;
   }
 
-  async update(
-    id: string,
-    updateChallengeDto: UpdateChallengeDto,
-  ): Promise<Challenge> {
+  async update(id: string, body: UpdateChallengeDto) {
     const challenge = await this.findOne(id);
     if (!challenge) {
-      throw new NotFoundException(`Challenge with ID "${id}" not found`);
+      throw new HttpException(
+        `Challenge with ID "${id}" not found`,
+        HttpStatus.NOT_FOUND,
+      );
     }
-    const updatedChallenge = this.challengeRepository.merge(
-      challenge,
-      updateChallengeDto,
+
+    const res = await this.challengeRepository.update(
+      { id },
+      { ...body, category: { id: body.categoryId } },
     );
-    await this.challengeRepository.save(updatedChallenge);
-    return updatedChallenge;
+
+    return res;
   }
 
-  async remove(id: string): Promise<void> {
-    const result = await this.challengeRepository.delete(id);
-    if (result.affected === 0) {
+  async remove(id: string) {
+    const res = await this.challengeRepository.delete(id);
+    if (res.affected === 0) {
       throw new NotFoundException(`Challenge with ID "${id}" not found`);
     }
+
+    return res;
   }
 }
