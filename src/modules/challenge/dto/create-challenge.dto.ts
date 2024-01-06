@@ -3,9 +3,10 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsInt,
-  IsBoolean,
+  IsEnum,
+  IsNumber,
 } from 'class-validator';
+import { ChallengeType } from 'src/shared/entities';
 
 export class CreateChallengeDto {
   @ApiProperty()
@@ -37,4 +38,19 @@ export class CreateChallengeDto {
   @IsNotEmpty()
   @IsString()
   categoryId: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsEnum(ChallengeType)
+  type: ChallengeType;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  imageId?: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsNumber()
+  port?: number;
 }

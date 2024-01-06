@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Solve } from './solve.entity';
+import { Docker } from './docker.entity';
 
 @Entity()
 export class User {
@@ -34,6 +35,13 @@ export class User {
 
   @Column('bool', { default: false })
   isAdmin: boolean;
+
+  @OneToMany(() => Docker, (docker) => docker.user, {
+    nullable: true,
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  dockers: Docker[];
 
   @CreateDateColumn()
   createdAt: Date;
