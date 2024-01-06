@@ -11,6 +11,8 @@ import { UserModule } from '../user/user.module';
 import { NoticeModule } from '../notice/notice.module';
 import { CategoryModule } from '../category/category.module';
 import { ChallengeModule } from '../challenge/challenge.module';
+import { DockerModule } from '../docker/docker.module';
+import { SolveModule } from '../solve/solve.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { ChallengeModule } from '../challenge/challenge.module';
     NoticeModule,
     CategoryModule,
     ChallengeModule,
+    DockerModule,
+    SolveModule,
   ],
   controllers: [RootController],
   providers: [RootService],

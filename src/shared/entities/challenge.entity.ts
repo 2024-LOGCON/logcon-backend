@@ -9,6 +9,13 @@ import {
 } from 'typeorm';
 import { Solve } from './solve.entity';
 import { Category } from './category.entity';
+import { Docker } from './docker.entity';
+
+export enum ChallengeType {
+  NONE = 'NONE',
+  REMOTE = 'REMOTE',
+  DOCKER = 'DOCKER',
+}
 
 @Entity()
 export class Challenge {
@@ -45,6 +52,21 @@ export class Challenge {
     eager: true,
   })
   category: Category;
+
+  @Column('enum', { enum: ChallengeType, default: ChallengeType.NONE })
+  type: ChallengeType;
+
+  @OneToMany(() => Docker, (docker) => docker.challenge, {
+    onDelete: 'CASCADE',
+    nullable: true,
+  })
+  dockers?: Docker[];
+
+  @Column({ nullable: true })
+  imageId?: string;
+
+  @Column({ nullable: true })
+  port?: number;
 
   @CreateDateColumn()
   createdAt: Date;

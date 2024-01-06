@@ -8,7 +8,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ChallengeService } from './challenge.service';
 import { CreateChallengeDto } from './dto/create-challenge.dto';
 import { UpdateChallengeDto } from './dto/update-challenge.dto';
@@ -28,18 +28,21 @@ export class ChallengeController {
   }
 
   @Get()
+  @ApiBearerAuth()
   @UseGuards(AccessGuard)
   async findAll(@User() user: Express.User) {
     return await this.challengeService.findAll(user);
   }
 
   @Get(':id')
+  @ApiBearerAuth()
   @UseGuards(AccessGuard)
   async findOne(@Param('id') id: string) {
     return this.challengeService.findOne(id);
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
   @UseGuards(AdminGuard)
   async update(
     @Param('id') id: string,
@@ -49,6 +52,7 @@ export class ChallengeController {
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
   @UseGuards(AdminGuard)
   async remove(@Param('id') id: string) {
     return this.challengeService.remove(id);
