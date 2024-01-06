@@ -15,6 +15,7 @@ import { UpdateChallengeDto } from './dto/update-challenge.dto';
 import { AdminGuard } from '../admin/guards/admin.guard';
 import { AccessGuard } from '../auth/guards/access.guard';
 import { User } from 'src/decorators/user';
+import { SolveDto, SolveResDto } from './dto/solve.dto';
 
 @ApiTags('challenge')
 @Controller('challenge')
@@ -56,5 +57,16 @@ export class ChallengeController {
   @UseGuards(AdminGuard)
   async remove(@Param('id') id: string) {
     return this.challengeService.remove(id);
+  }
+
+  @Post('solve/:id')
+  @ApiBearerAuth()
+  @UseGuards(AccessGuard)
+  async solve(
+    @Param('id') id: string,
+    @Body() body: SolveDto,
+    @User() user: Express.User,
+  ): Promise<SolveResDto> {
+    return await this.challengeService.solve(id, body.flag, user);
   }
 }

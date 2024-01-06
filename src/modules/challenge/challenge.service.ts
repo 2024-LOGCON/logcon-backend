@@ -9,12 +9,15 @@ import { Repository } from 'typeorm';
 import { Challenge } from '../../shared/entities/challenge.entity';
 import { CreateChallengeDto } from './dto/create-challenge.dto';
 import { UpdateChallengeDto } from './dto/update-challenge.dto';
+import { Solve } from 'src/shared/entities';
 
 @Injectable()
 export class ChallengeService {
   constructor(
     @InjectRepository(Challenge)
     private challengeRepository: Repository<Challenge>,
+    @InjectRepository(Solve)
+    private solveRepository: Repository<Solve>,
   ) {}
 
   async create(body: CreateChallengeDto): Promise<Challenge> {
@@ -73,5 +76,32 @@ export class ChallengeService {
     }
 
     return res;
+  }
+
+  async solve(id: string, flag: string, user: Express.User) {
+    const challenge = await this.findOne(id);
+
+    if (!challenge) {
+      new HttpException('Challenge not found', HttpStatus.NOT_FOUND);
+    }
+
+    const solve = await this.solveRepository.findOne({
+      where: { challenge, user, correct: true },
+    });
+
+    if (solve) {
+      throw new HttpException('You already solved this challenge', 400);
+    }
+
+    const correct = challenge.flag === flag;
+
+    await this.solveRepository.save({
+      challenge,
+      user,
+      flag,
+      correct,
+    });
+
+    return { correct };
   }
 }

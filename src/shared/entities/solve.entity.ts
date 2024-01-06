@@ -1,4 +1,5 @@
 import {
+  Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
@@ -18,6 +19,12 @@ export class Solve {
 
   @ManyToOne(() => Challenge, (challenge) => challenge.solves)
   challenge: Challenge;
+
+  @Column()
+  flag: string;
+
+  @Column({ default: false })
+  correct: boolean;
 
   @CreateDateColumn()
   createdAt: Date;
