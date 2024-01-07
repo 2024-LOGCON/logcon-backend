@@ -37,7 +37,7 @@ export class Challenge {
   @Column({ default: 500 })
   point: number;
 
-  @Column()
+  @Column({ nullable: true })
   file: string;
 
   @Column({ default: false })
@@ -64,9 +64,6 @@ export class Challenge {
 
   @Column({ nullable: true })
   imageId?: string;
-
-  @Column({ nullable: true })
-  port?: number;
 
   @CreateDateColumn()
   createdAt: Date;

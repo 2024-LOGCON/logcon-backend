@@ -12,26 +12,36 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { Request, Response } from 'express';
 import { RefreshGuard } from './guards/refresh.guard';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AccessGuard } from './guards/access.guard';
+import { User } from 'src/decorators/user';
+import { REFRESH_TOKEN_KEY, REFRESH_TOKEN_OPTION } from 'src/utils/cookie';
 
 @Controller('auth')
+@ApiTags('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Get()
+  @ApiBearerAuth()
+  @UseGuards(AccessGuard)
+  async hello(@User() user: Express.User) {
+    return await this.authService.getUserByEmail(user.email);
+  }
+
   @Post('/register')
   async register(@Res() res: Response, @Body() registerDto: RegisterDto) {
-    const accessToken = await this.authService.register(registerDto);
+    const refreshToken = await this.authService.register(registerDto);
 
-    res.cookie('ACCESS_TOKEN', accessToken);
-    res.send(accessToken);
+    res.cookie(REFRESH_TOKEN_KEY, refreshToken, REFRESH_TOKEN_OPTION());
+    res.send(refreshToken);
   }
 
   @Post('/login')
   async login(@Res() res: Response, @Body() loginDto: LoginDto) {
     const refreshToken = await this.authService.login(loginDto);
 
-    res.cookie('REFRESH_TOKEN', refreshToken);
+    res.cookie(REFRESH_TOKEN_KEY, refreshToken, REFRESH_TOKEN_OPTION());
     res.send(refreshToken);
   }
 
@@ -39,7 +49,7 @@ export class AuthController {
   @ApiBearerAuth()
   @UseGuards(AccessGuard)
   async logout(@Res() res: Response) {
-    res.clearCookie('REFRESH_TOKEN');
+    res.clearCookie(REFRESH_TOKEN_KEY);
     res.send('ok');
   }
 

@@ -14,7 +14,7 @@ export class RefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        (request) => request?.cookies?.REFRESH_TOKEN,
+        (request) => request?.cookies?.Refresh,
       ]),
       secretOrKey: config.get<string>('REFRESH_TOKEN_SECRET'),
       passReqToCallback: true,
@@ -26,7 +26,7 @@ export class RefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
     delete user.exp;
     return (
       (await this.authService.validateRefreshToken(
-        req.cookies.REFRESH_TOKEN,
+        req.cookies.Refresh,
         user.email,
       )) && user
     );

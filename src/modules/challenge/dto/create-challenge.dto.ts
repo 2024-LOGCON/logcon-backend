@@ -48,9 +48,4 @@ export class CreateChallengeDto {
   @IsOptional()
   @IsString()
   imageId?: string;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsNumber()
-  port?: number;
 }

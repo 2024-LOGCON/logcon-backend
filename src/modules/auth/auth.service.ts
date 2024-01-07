@@ -18,6 +18,10 @@ export class AuthService {
     private readonly userRepository: Repository<User>,
   ) {}
 
+  async getUserByEmail(email: string): Promise<User> {
+    return await this.userRepository.findOneBy({ email });
+  }
+
   async hashPassword(password: string) {
     const salt = await bcrypt.genSalt();
     return await bcrypt.hash(password, salt);
@@ -52,7 +56,7 @@ export class AuthService {
     });
 
     await this.userRepository.save(newUser);
-    return await this.generateAccessToken(newUser);
+    return await this.generateRefreshToken(newUser);
   }
 
   async login({ id, password }: LoginDto): Promise<string> {

@@ -10,7 +10,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -24,24 +24,28 @@ export class CategoryController {
 
   @Post()
   @UseGuards(AdminGuard)
+  @ApiBearerAuth()
   async create(@Body() body: CreateCategoryDto) {
     return await this.categoryService.create(body);
   }
 
   @Get()
   @UseGuards(AccessGuard)
+  @ApiBearerAuth()
   async findAll() {
     return await this.categoryService.findAll();
   }
 
   @Get(':id')
   @UseGuards(AccessGuard)
+  @ApiBearerAuth()
   async findOne(@Param('id') id: string) {
     return await this.categoryService.findOne(id);
   }
 
   @Put(':id')
   @UseGuards(AdminGuard)
+  @ApiBearerAuth()
   async update(
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
@@ -51,6 +55,7 @@ export class CategoryController {
 
   @Delete(':id')
   @UseGuards(AdminGuard)
+  @ApiBearerAuth()
   async remove(@Param('id') id: string) {
     return await this.categoryService.remove(id);
   }
