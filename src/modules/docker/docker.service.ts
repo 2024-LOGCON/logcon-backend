@@ -45,14 +45,11 @@ export class DockerService {
       );
     }
 
-    const ports = [
-      ...(
-        await this.dockerRepository.find({
-          select: { port: true },
-        })
-      ).map((item) => item.port),
-      ...(await this.challengeRepository.find()).map((item) => item.port),
-    ];
+    const ports = (
+      await this.dockerRepository.find({
+        select: { port: true },
+      })
+    ).map((item) => item.port);
 
     let port = Math.floor(Math.random() * 10000 + 20000);
 
