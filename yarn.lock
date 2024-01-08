@@ -3174,6 +3174,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"crypto@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "crypto@npm:1.0.1"
+  checksum: fcf7dbd68ac5415b7fde7d7208fe203038e92e83e8a8fcf6e86ab4771ce3dd026d6967a990ba56b9d1c771378210814d5c90d907d3739fbd1723d552ad6c8ab8
+  languageName: node
+  linkType: hard
+
 "date-fns@npm:^2.29.3":
   version: 2.30.0
   resolution: "date-fns@npm:2.30.0"
@@ -5691,6 +5698,7 @@ __metadata:
     class-validator: "npm:^0.14.0"
     cookie-parser: "npm:^1.4.6"
     cross-env: "npm:^7.0.3"
+    crypto: "npm:^1.0.1"
     dockerode: "npm:^4.0.1"
     eslint: "npm:^8.42.0"
     eslint-config-prettier: "npm:^9.0.0"
