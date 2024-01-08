@@ -111,7 +111,7 @@ export class ChallengeService {
     await this.solveRepository.save({
       challenge,
       user,
-      flag: correct ? sha256(flag) : flag,
+      flag: sha256(flag),
       correct,
     });
 
