@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   Patch,
   Post,
@@ -11,11 +12,20 @@ import { NoticeService } from './notice.service';
 import { CreateNoticeDto } from './dto/create-notice.dto';
 import { UpdateNoticeDto } from './dto/update-notice.dto';
 import { AdminGuard } from '../admin/guards/admin.guard';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AccessGuard } from '../auth/guards/access.guard';
 
 @Controller('notice')
+@ApiTags('notice')
 export class NoticeController {
   constructor(private readonly noticeService: NoticeService) {}
+
+  @Get()
+  @ApiBearerAuth()
+  @UseGuards(AccessGuard)
+  async findAll() {
+    return await this.noticeService.findAll();
+  }
 
   @Post()
   @ApiBearerAuth()

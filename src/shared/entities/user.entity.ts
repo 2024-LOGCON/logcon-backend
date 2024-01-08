@@ -28,6 +28,9 @@ export class User {
   @Column()
   school: string;
 
+  @Column({ default: 0 })
+  score: number;
+
   @OneToMany(() => Solve, (solve) => solve.user, {
     eager: true,
   })
