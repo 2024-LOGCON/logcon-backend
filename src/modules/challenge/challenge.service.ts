@@ -10,6 +10,8 @@ import { Challenge } from '../../shared/entities/challenge.entity';
 import { CreateChallengeDto } from './dto/create-challenge.dto';
 import { UpdateChallengeDto } from './dto/update-challenge.dto';
 import { Solve } from 'src/shared/entities';
+import { sha256 } from 'src/utils/enc';
+import { calculateScore } from 'src/utils/score';
 
 @Injectable()
 export class ChallengeService {
@@ -23,6 +25,7 @@ export class ChallengeService {
   async create(body: CreateChallengeDto): Promise<Challenge> {
     const newChallenge = this.challengeRepository.create({
       ...body,
+      flag: sha256(body.flag),
       category: {
         id: body.categoryId,
       },
@@ -86,19 +89,29 @@ export class ChallengeService {
     }
 
     const solve = await this.solveRepository.findOne({
-      where: { challenge, user, correct: true },
+      relations: ['user', 'challenge'],
+      select: ['id'],
+      where: {
+        challenge: {
+          id: challenge.id,
+        },
+        user: {
+          id: user.id,
+        },
+        correct: true,
+      },
     });
 
     if (solve) {
       throw new HttpException('You already solved this challenge', 400);
     }
 
-    const correct = challenge.flag === flag;
+    const correct = challenge.flag === sha256(flag);
 
     await this.solveRepository.save({
       challenge,
       user,
-      flag,
+      flag: correct ? sha256(flag) : flag,
       correct,
     });
 

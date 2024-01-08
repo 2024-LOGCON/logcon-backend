@@ -43,9 +43,7 @@ export class Challenge {
   @Column({ default: false })
   visible: boolean;
 
-  @OneToMany(() => Solve, (solve) => solve.challenge, {
-    eager: true,
-  })
+  @OneToMany(() => Solve, (solve) => solve.challenge)
   solves: Solve[];
 
   @ManyToOne(() => Category, (category) => category.challenges, {

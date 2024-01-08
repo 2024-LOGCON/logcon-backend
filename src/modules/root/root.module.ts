@@ -12,6 +12,7 @@ import { NoticeModule } from '../notice/notice.module';
 import { CategoryModule } from '../category/category.module';
 import { ChallengeModule } from '../challenge/challenge.module';
 import { DockerModule } from '../docker/docker.module';
+import { ScoreModule } from '../score/score.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { DockerModule } from '../docker/docker.module';
     CategoryModule,
     ChallengeModule,
     DockerModule,
+    ScoreModule,
   ],
   controllers: [RootController],
   providers: [RootService],

@@ -17,6 +17,7 @@ import entities from '../entities';
         entities: entities,
         synchronize: true,
         type: 'mysql',
+        timezone: '+09:00',
       }),
     }),
   ],

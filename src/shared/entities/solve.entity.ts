@@ -17,7 +17,9 @@ export class Solve {
   @ManyToOne(() => User, (user) => user.solves)
   user: User;
 
-  @ManyToOne(() => Challenge, (challenge) => challenge.solves)
+  @ManyToOne(() => Challenge, (challenge) => challenge.solves, {
+    eager: true,
+  })
   challenge: Challenge;
 
   @Column()
