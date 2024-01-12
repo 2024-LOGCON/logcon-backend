@@ -3,6 +3,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from 'src/shared/entities';
+import { validate } from 'class-validator';
+import { validateName } from 'src/validators/auth';
 
 @Injectable()
 export class UserService {
@@ -27,6 +29,11 @@ export class UserService {
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
+
+    if (validateName(name)) {
+      throw new HttpException('Invalid name', HttpStatus.BAD_REQUEST);
+    }
+
     user.name = name;
     user.school = school;
     await this.userRepository.save(user);
