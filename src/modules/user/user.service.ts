@@ -30,6 +30,9 @@ export class UserService {
     user.name = name;
     user.school = school;
     await this.userRepository.save(user);
+
+    delete user.password;
+    delete user.isAdmin;
     return user;
   }
 
