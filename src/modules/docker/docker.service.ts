@@ -1,4 +1,5 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as Dockerode from 'dockerode';
 import { Challenge, ChallengeType, Docker } from 'src/shared/entities';
@@ -13,6 +14,7 @@ export class DockerService {
     private readonly dockerRepository: Repository<Docker>,
     @InjectRepository(Challenge)
     private readonly challengeRepository: Repository<Challenge>,
+    private readonly configService: ConfigService,
   ) {
     this.docker = new Dockerode({ socketPath: '/var/run/docker.sock' });
   }
@@ -35,14 +37,22 @@ export class DockerService {
     }
 
     const docker = await this.dockerRepository.findOne({
-      where: { challenge, user },
+      where: {
+        challenge: {
+          id: challengeId,
+        },
+        user: {
+          id: user.id,
+        },
+      },
+      relations: ['challenge', 'user'],
     });
 
     if (docker) {
-      throw new HttpException(
-        'Container already started',
-        HttpStatus.BAD_REQUEST,
-      );
+      return {
+        host: `${this.configService.get('SERVICE_DOMAIN')}`,
+        port: docker.port,
+      };
     }
 
     const ports = (
@@ -57,7 +67,7 @@ export class DockerService {
       port = Math.floor(Math.random() * 10000 + 20000);
     }
 
-    return this.docker.createContainer(
+    this.docker.createContainer(
       {
         Image: challenge.imageId,
         Tty: true,
@@ -87,14 +97,22 @@ export class DockerService {
 
         setInterval(
           async () => {
-            await container.stop();
+            try {
+              await container.stop();
+            } catch (err) {
+              Logger.error(err, 'DockerService');
+            }
+
             await this.dockerRepository.delete({ containerId: container.id });
           },
           1000 * 60 * 60,
         );
-
-        return container;
       },
     );
+
+    return {
+      host: `${this.configService.get('SERVICE_DOMAIN')}`,
+      port,
+    };
   }
 }
