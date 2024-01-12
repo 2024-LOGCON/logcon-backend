@@ -15,6 +15,7 @@ const validateId = (id: string) =>
   !blacklist.id.includes(id) && /[^a-zA-Z0-9]/g.test(id) === false;
 
 const validateName = (name: string) =>
-  !blacklist.name.includes(name) && /[^a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g.test(name);
+  !blacklist.name.includes(name) &&
+  /[^a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g.test(name) === false;
 
 export { validateEmail, validatePassword, validateId, validateName };
