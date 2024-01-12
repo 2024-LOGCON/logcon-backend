@@ -44,7 +44,12 @@ export class AuthService {
     password,
     school,
   }: RegisterDto): Promise<string> {
-    const user = await this.userRepository.findOneBy({ email });
+    const user = await this.userRepository
+      .createQueryBuilder('user')
+      .where('user.id = :id', { id })
+      .orWhere('user.email = :email', { email })
+      .getOne();
+
     if (user) {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }
