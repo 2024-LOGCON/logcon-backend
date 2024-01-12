@@ -68,7 +68,12 @@ export class ChallengeService {
 
     const res = await this.challengeRepository.update(
       { id },
-      { ...body, category: { id: body.categoryId } },
+      {
+        ...body,
+        category: {
+          id: body.categoryId ? body.categoryId : challenge.category.id,
+        },
+      },
     );
 
     return res;

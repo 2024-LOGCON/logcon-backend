@@ -40,7 +40,7 @@ export class ChallengeController {
   @ApiBearerAuth()
   @UseGuards(AccessGuard)
   async findOne(@Param('id') id: string) {
-    return this.challengeService.findOne(id);
+    return await this.challengeService.findOne(id);
   }
 
   @Patch(':id')
@@ -50,14 +50,14 @@ export class ChallengeController {
     @Param('id') id: string,
     @Body() updateChallengeDto: UpdateChallengeDto,
   ) {
-    return this.challengeService.update(id, updateChallengeDto);
+    return await this.challengeService.update(id, updateChallengeDto);
   }
 
   @Delete(':id')
   @ApiBearerAuth()
   @UseGuards(AdminGuard)
   async remove(@Param('id') id: string) {
-    return this.challengeService.remove(id);
+    return await this.challengeService.remove(id);
   }
 
   @Post('solve/:id')
