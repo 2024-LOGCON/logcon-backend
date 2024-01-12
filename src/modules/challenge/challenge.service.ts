@@ -13,6 +13,7 @@ import { Solve, User } from 'src/shared/entities';
 import { sha256 } from 'src/utils/enc';
 import { calculateScore } from 'src/utils/score';
 import { ConfigService } from '@nestjs/config';
+import { getDate } from 'src/utils/date';
 
 @Injectable()
 export class ChallengeService {
@@ -92,8 +93,8 @@ export class ChallengeService {
 
   async solve(id: string, flag: string, user: Express.User) {
     const disabled = this.configService.get<string>('CHALLENGE_DISABLED');
-    const disabledTime = new Date(disabled);
-    const now = new Date();
+    const disabledTime = getDate(disabled);
+    const now = getDate();
 
     console.log(disabledTime, now);
 
