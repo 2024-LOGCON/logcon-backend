@@ -12,24 +12,20 @@ export class UserService {
   ) {}
 
   async findUser(id: string) {
-    const user = await this.userRepository.findOneBy({ id });
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['solves'],
+    });
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
     return user;
   }
 
-  async updateUser(
-    _user: Express.User,
-    id: string,
-    { name, school }: UpdateUserDto,
-  ) {
-    const user = await this.userRepository.findOneBy({ id });
+  async updateUser(_user: Express.User, { name, school }: UpdateUserDto) {
+    const user = await this.userRepository.findOneBy({ id: _user.id });
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    }
-    if (_user.id !== id) {
-      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }
     user.name = name;
     user.school = school;

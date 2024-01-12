@@ -22,6 +22,6 @@ export class AccessStrategy extends PassportStrategy(Strategy, 'access') {
   async validate(req: Request, user: Express.User & Partial<JwtPayload>) {
     delete user.iat;
     delete user.exp;
-    return await this.authService.getUserByEmail(user.email);
+    return user;
   }
 }

@@ -5,7 +5,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/shared/entities';
 import { Repository } from 'typeorm';
 import { RegisterDto } from './dto/register.dto';
-import { validateEmail, validatePassword } from 'src/validators/auth';
+import {
+  validateEmail,
+  validateId,
+  validateName,
+  validatePassword,
+} from 'src/validators/auth';
 import * as bcrypt from 'bcryptjs';
 import { LoginDto } from './dto/login.dto';
 
@@ -19,7 +24,12 @@ export class AuthService {
   ) {}
 
   async getUserByEmail(email: string): Promise<User> {
-    return await this.userRepository.findOneBy({ email });
+    return await this.userRepository.findOne({
+      where: {
+        email,
+      },
+      relations: ['solves'],
+    });
   }
 
   async hashPassword(password: string) {
@@ -45,6 +55,14 @@ export class AuthService {
 
     if (!validatePassword(password)) {
       throw new HttpException('Invalid password', HttpStatus.BAD_REQUEST);
+    }
+
+    if (!validateName(name)) {
+      throw new HttpException('Invalid name', HttpStatus.BAD_REQUEST);
+    }
+
+    if (!validateId(id)) {
+      throw new HttpException('Invalid id', HttpStatus.BAD_REQUEST);
     }
 
     const newUser = this.userRepository.create({

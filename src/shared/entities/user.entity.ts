@@ -31,9 +31,7 @@ export class User {
   @Column({ default: 0 })
   score: number;
 
-  @OneToMany(() => Solve, (solve) => solve.user, {
-    eager: true,
-  })
+  @OneToMany(() => Solve, (solve) => solve.user)
   solves: Solve[];
 
   @Column('bool', { default: false })
@@ -41,7 +39,6 @@ export class User {
 
   @OneToMany(() => Docker, (docker) => docker.user, {
     nullable: true,
-    eager: true,
     onDelete: 'CASCADE',
   })
   dockers: Docker[];
