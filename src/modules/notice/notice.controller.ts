@@ -14,11 +14,15 @@ import { UpdateNoticeDto } from './dto/update-notice.dto';
 import { AdminGuard } from '../admin/guards/admin.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AccessGuard } from '../auth/guards/access.guard';
+import { NoticeGateway } from './notice.gateway';
 
 @Controller('notice')
 @ApiTags('notice')
 export class NoticeController {
-  constructor(private readonly noticeService: NoticeService) {}
+  constructor(
+    private readonly noticeService: NoticeService,
+    private readonly noticeGateway: NoticeGateway,
+  ) {}
 
   @Get()
   @ApiBearerAuth()
@@ -31,6 +35,7 @@ export class NoticeController {
   @ApiBearerAuth()
   @UseGuards(AdminGuard)
   async create(@Body() body: CreateNoticeDto) {
+    this.noticeGateway.server.emit('notice', body);
     return await this.noticeService.create(body);
   }
 
