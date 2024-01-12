@@ -25,6 +25,9 @@ export class ScoreService {
             );
         }),
       )
+      .andWhere('solve.correct IS NULL OR solve.correct = :correct', {
+        correct: true,
+      })
       .orderBy('user.score', 'DESC')
       .addOrderBy('solve.createdAt', 'ASC')
       .select(['user.id', 'user.name', 'user.score', 'solve'])
