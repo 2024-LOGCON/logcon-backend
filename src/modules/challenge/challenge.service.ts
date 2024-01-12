@@ -95,7 +95,7 @@ export class ChallengeService {
     const disabledTime = new Date(disabled);
     const now = new Date();
 
-    if (now > disabledTime) {
+    if (now >= disabledTime) {
       throw new HttpException('Challenge is disabled', 400);
     }
 
