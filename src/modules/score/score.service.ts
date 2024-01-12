@@ -11,27 +11,30 @@ export class ScoreService {
   ) {}
 
   public async findAll() {
-    const users = await this.userRepository
-      .createQueryBuilder('user')
-      .leftJoinAndSelect('user.solves', 'solve')
-      .where('user.isAdmin = :isAdmin', { isAdmin: false })
-      .andWhere(
-        new Brackets((qb) => {
-          qb.where('solve.correct = :correct', { correct: true })
-            .orWhere('solve.correct IS NULL')
-            .orWhere(
-              'NOT EXISTS (SELECT 1 FROM solve subSolve WHERE subSolve.userId = user.id AND subSolve.correct = :trueCorrect)',
-              { trueCorrect: true },
-            );
-        }),
-      )
-      .andWhere('solve.correct IS NOT solve.correct = :correct', {
-        correct: false,
-      })
-      .orderBy('user.score', 'DESC')
-      .addOrderBy('solve.createdAt', 'ASC')
-      .select(['user.id', 'user.name', 'user.score', 'solve'])
-      .getMany();
+    const users = await this.userRepository.find({
+      select: ['id', 'name', 'score', 'solves', 'createdAt'],
+      relations: ['solves'],
+      where: {
+        isAdmin: false,
+      },
+    });
+
+    users.forEach((user) => {
+      user.solves = user.solves.filter((solve) => solve.correct);
+    });
+
+    users.sort((a, b) => {
+      if (a.score > b.score) {
+        return -1;
+      }
+      if (a.score < b.score) {
+        return 1;
+      }
+      if (a.score === 0) {
+        return a.createdAt > b.createdAt ? 1 : -1;
+      }
+      return a.solves[0].createdAt > b.solves[0].createdAt ? 1 : -1;
+    });
 
     return users;
   }
