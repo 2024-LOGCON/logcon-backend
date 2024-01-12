@@ -1,0 +1,11 @@
+{
+	"id": [
+		"admin",
+		"guest"
+	],
+	"name": [
+		"관리자",
+		"admin",
+		"guest"
+	]
+}

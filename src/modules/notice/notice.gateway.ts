@@ -1,5 +1,10 @@
-import { WebSocketGateway, SubscribeMessage } from '@nestjs/websockets';
+import {
+  WebSocketGateway,
+  SubscribeMessage,
+  WebSocketServer,
+} from '@nestjs/websockets';
 import { NoticeService } from './notice.service';
+import { Server } from 'http';
 
 @WebSocketGateway({
   transports: ['websocket', 'polling'],
@@ -9,6 +14,9 @@ import { NoticeService } from './notice.service';
 })
 export class NoticeGateway {
   constructor(private readonly noticeService: NoticeService) {}
+
+  @WebSocketServer()
+  server: Server;
 
   @SubscribeMessage('findAllNotice')
   findAll() {

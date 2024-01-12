@@ -14,5 +14,5 @@ export class CreateNoticeDto {
     example: '공지사항 내용',
   })
   @IsString()
-  content: string;
+  description: string;
 }

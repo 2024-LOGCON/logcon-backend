@@ -26,7 +26,7 @@ export class ChallengeController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   async create(@Body() createChallengeDto: CreateChallengeDto) {
-    return this.challengeService.create(createChallengeDto);
+    return await this.challengeService.create(createChallengeDto);
   }
 
   @Get()

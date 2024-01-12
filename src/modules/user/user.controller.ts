@@ -20,24 +20,20 @@ export class UserController {
   @Get(':id')
   @ApiBearerAuth()
   @UseGuards(AccessGuard)
-  findOne(@Param('id') id: string) {
-    return this.userService.findUser(id);
+  async findOne(@Param('id') id: string) {
+    return await this.userService.findUser(id);
   }
 
-  @Patch(':id')
+  @Patch('')
   @ApiBearerAuth()
   @UseGuards(AccessGuard)
-  update(
-    @Req() req: Request,
-    @Param('id') id: string,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
-    return this.userService.updateUser(req.user, id, updateUserDto);
+  async update(@Req() req: Request, @Body() updateUserDto: UpdateUserDto) {
+    return await this.userService.updateUser(req.user, updateUserDto);
   }
 
   @Delete(':id')
   @UseGuards(AccessGuard)
-  remove(@Req() req: Request, @Param('id') id: string) {
-    return this.userService.removeUser(req.user, id);
+  async remove(@Req() req: Request, @Param('id') id: string) {
+    return await this.userService.removeUser(req.user, id);
   }
 }

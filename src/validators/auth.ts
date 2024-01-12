@@ -6,4 +6,14 @@ const validateEmail = (email: string) => {
 
 const validatePassword = (password: string) => password.length >= 8;
 
-export { validateEmail, validatePassword };
+const blacklist = {
+  id: ['admin', 'guest'],
+  name: ['관리자', 'admin', 'guest'],
+};
+
+const validateId = (id: string) =>
+  !blacklist.id.includes(id) && /[^a-zA-Z0-9]/g.test(id) === false;
+
+const validateName = (name: string) => !blacklist.name.includes(name);
+
+export { validateEmail, validatePassword, validateId, validateName };

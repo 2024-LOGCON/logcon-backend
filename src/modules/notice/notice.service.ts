@@ -18,8 +18,6 @@ export class NoticeService {
   server: Server;
 
   public async create(createNoticeDto: CreateNoticeDto) {
-    this.server.emit('notice', createNoticeDto);
-
     const notice = this.noticeRepository.create(createNoticeDto);
     await this.noticeRepository.save(notice);
 
@@ -27,7 +25,9 @@ export class NoticeService {
   }
 
   public async findAll() {
-    return await this.noticeRepository.find();
+    return await this.noticeRepository.find({
+      order: { createdAt: 'DESC' },
+    });
   }
 
   public async update(id: string, updateNoticeDto: UpdateNoticeDto) {
