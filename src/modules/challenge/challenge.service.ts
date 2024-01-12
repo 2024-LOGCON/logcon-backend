@@ -12,6 +12,7 @@ import { UpdateChallengeDto } from './dto/update-challenge.dto';
 import { Solve, User } from 'src/shared/entities';
 import { sha256 } from 'src/utils/enc';
 import { calculateScore } from 'src/utils/score';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ChallengeService {
@@ -22,6 +23,7 @@ export class ChallengeService {
     private solveRepository: Repository<Solve>,
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private readonly configService: ConfigService,
   ) {}
 
   async create(body: CreateChallengeDto): Promise<Challenge> {
@@ -89,6 +91,14 @@ export class ChallengeService {
   }
 
   async solve(id: string, flag: string, user: Express.User) {
+    const disabled = this.configService.get<string>('CHALLENGE_DISABLED');
+    const disabledTime = new Date(disabled);
+    const now = new Date();
+
+    if (now < disabledTime) {
+      throw new HttpException('Challenge is disabled', 400);
+    }
+
     const challenge = await this.findOne(id);
 
     if (!challenge) {
