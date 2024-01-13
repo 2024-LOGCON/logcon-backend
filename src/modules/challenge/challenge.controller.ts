@@ -60,6 +60,13 @@ export class ChallengeController {
     return await this.challengeService.remove(id);
   }
 
+  @Post('fix')
+  @ApiBearerAuth()
+  @UseGuards(AdminGuard)
+  async fix() {
+    return await this.challengeService.fix();
+  }
+
   @Post('solve/:id')
   @ApiBearerAuth()
   @UseGuards(AccessGuard)

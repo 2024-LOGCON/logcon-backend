@@ -139,6 +139,7 @@ export class ChallengeService {
         .select(['user.id', 'user.score'])
         .leftJoinAndSelect('user.solves', 'solve')
         .where('solve.correct = :correct', { correct: true })
+        .andWhere('solve.challenge.id = :id', { id: challenge.id })
         .getMany();
 
       const score = calculateScore(users.length - 1);
@@ -151,6 +152,8 @@ export class ChallengeService {
           point: score,
         },
       );
+
+      console.log(challenge.point, score);
 
       users.forEach(async (_user) => {
         await this.userRepository.update(
@@ -168,5 +171,52 @@ export class ChallengeService {
     }
 
     return { correct };
+  }
+
+  async fix() {
+    const challenge = await this.challengeRepository.find({
+      relations: ['solves'],
+      where: {
+        solves: {
+          correct: true,
+        },
+      },
+    });
+
+    challenge.forEach(async (e) => {
+      await this.challengeRepository.update(
+        {
+          id: e.id,
+        },
+        {
+          point: calculateScore(e.solves.length - 1),
+        },
+      );
+    });
+
+    const users = await this.userRepository.find({
+      relations: ['solves'],
+      where: {
+        isAdmin: false,
+        solves: {
+          correct: true,
+        },
+      },
+    });
+
+    users.forEach(async (user) => {
+      const score = user.solves.reduce((acc, cur) => {
+        return acc + cur.challenge.point;
+      }, 0);
+
+      await this.userRepository.update(
+        {
+          id: user.id,
+        },
+        {
+          score,
+        },
+      );
+    });
   }
 }
